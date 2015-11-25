@@ -239,11 +239,7 @@ func (c *Client) buildRequest(method, urlStr string, body interface{}) (*http.Re
 func (c *Client) Do(req *http.Request) (*Response, error) {
 
 	resp, err := c.client.Do(req)
-	if err != nil {
-		response := new(Response)
-		response.Response = resp
-		return response, err
-	}
+	body, _ := ioutil.ReadAll(resp.Body)
 	defer resp.Body.Close()
 
 	code := resp.StatusCode
@@ -272,18 +268,9 @@ func (c *Client) Do(req *http.Request) (*Response, error) {
 		}
 	}
 	err = CheckResponse(resp)
-	if err != nil {
-		response := new(Response)
-		response.Response = resp
-		return response, err
-	}
 
-	body, _ := ioutil.ReadAll(resp.Body)
 	response := new(Response)
-	err = json.Unmarshal(body, response)
-	if err != nil {
-		log.Errorf("err:%v", err.Error())
-	}
+	json.Unmarshal(body, response)
 	repeat = 0
 	response.Response = resp
 	return response, err

@@ -49,8 +49,8 @@ func (s *UsersService) Registers(usernames []string, password string) (*Response
 }
 
 // Register a user with Authorization
-func (s *UsersService) Register(username string, password string, nickname string) (*Response, error) {
-	put := &PutOptions{Username: username, Password: password, Nickname: nickname}
+func (s *UsersService) Register(username string, password string) (*Response, error) {
+	put := &PutOptions{Username: username, Password: password}
 
 	var u string
 	u = "users"
