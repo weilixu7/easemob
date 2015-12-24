@@ -16,8 +16,6 @@ import (
 	"reflect"
 	"time"
 
-	"gitlab.xiaoenai.net/server/log"
-
 	"github.com/google/go-querystring/query"
 )
 
@@ -284,8 +282,6 @@ func (c *Client) GetToken() error {
 
 	c.Token = resp.AccessToken
 	c.Expires = resp.Expires
-
-	log.Tracef("token:%v,expires:%v", c.Token, c.Expires)
 
 	return nil
 }
