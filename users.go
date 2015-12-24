@@ -1,3 +1,8 @@
+// Copyright 2015 The Yang Gui AUTHORS. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 package easemob
 
 import "fmt"
@@ -76,6 +81,22 @@ func (s *UsersService) RegisterGroup(users map[string]string) (*Response, error)
 	u = "users"
 
 	req, err := s.client.NewRequest("POST", u, puts)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := s.client.Do(req)
+	return resp, err
+}
+
+// user status online offline
+func (s *UsersService) UserStatus(username string) (*Response, error) {
+	put := &PutOptions{}
+
+	var u string
+	u = "users/" + username + "/status"
+
+	req, err := s.client.NewRequest("GET", u, put)
 	if err != nil {
 		return nil, err
 	}

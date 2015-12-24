@@ -1,7 +1,12 @@
+// Copyright 2015 The Yang Gui AUTHORS. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 package easemob
 
 import (
-	"net/http"
+  "net/http"
 )
 
 /**
@@ -11,7 +16,7 @@ import (
  * Easemob API docs: http://docs.easemob.com/doku.php?id=start:100serverintegration:50messages
  */
 type MessagesService struct {
-	client *Client
+  client *Client
 }
 
 /**
@@ -20,30 +25,30 @@ type MessagesService struct {
  * http://docs.easemob.com/doku.php?id=start:100serverintegration:50messages#发送文本消息
  */
 func (s *MessagesService) SendTextMessagesToUsers(from string, text string,
-	userIds ...string) (*Response, error) {
+  userIds ...string) (*Response, error) {
 
-	var (
-		err        error
-		putOptions *MessagePutOptions
-		path       string
-		req        *http.Request
-		resp       *Response
-	)
+  var (
+    err        error
+    putOptions *MessagePutOptions
+    path       string
+    req        *http.Request
+    resp       *Response
+  )
 
-	putOptions = &MessagePutOptions{
-		TargetType: "users",
-		Target:     userIds,
-		Msg:        &MessageType{Type: "txt", Msg: text},
-		From:       from,
-	}
+  putOptions = &MessagePutOptions{
+    TargetType: "users",
+    Target:     userIds,
+    Msg:        &MessageType{Type: "txt", Msg: text},
+    From:       from,
+  }
 
-	path = "messages"
+  path = "messages"
 
-	req, err = s.client.NewRequest("POST", path, putOptions)
-	if err != nil {
-		return nil, err
-	}
+  req, err = s.client.NewRequest("POST", path, putOptions)
+  if err != nil {
+    return nil, err
+  }
 
-	resp, err = s.client.Do(req)
-	return resp, err
+  resp, err = s.client.Do(req)
+  return resp, err
 }

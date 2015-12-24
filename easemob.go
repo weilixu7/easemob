@@ -1,3 +1,8 @@
+// Copyright 2015 The go-easemob AUTHORS. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 package easemob
 
 import (
@@ -144,11 +149,7 @@ func NewClient(clientId string, clientSecret string, orgName string, appName str
 		ClientId:  clientId,
 		Secret:    clientSecret}
 
-	if token == "" {
-		c.GetToken()
-	} else {
-		c.Token = token
-	}
+	c.Token = token
 
 	c.Users = &UsersService{client: c}
 	c.Messages = &MessagesService{client: c}
@@ -255,16 +256,6 @@ func (c *Client) Do(req *http.Request) (*Response, error) {
 		if repeat < repeat_times {
 			repeat++
 			return c.Do(req)
-		}
-	} else if code == 401 {
-		//token invalid, get new token and continue
-		if repeat < 1 {
-			err := c.GetToken()
-			if err == nil {
-				req.Header.Set("Authorization", fmt.Sprintf("%s %s", "Bearer", c.Token))
-				repeat++
-				return c.Do(req)
-			}
 		}
 	}
 	err = CheckResponse(resp)
